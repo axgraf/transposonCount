@@ -149,5 +149,9 @@ Discarded barcodes:	22.192
 
 `--fraction_discard_gene_3_end`: Define the fraction (0.0 - 1.0) of the 3'-end that is discarded for barcode assignment and read counting. Ignored for intergenic regions.
 
+`--threads`: Number of processes to use [default: 4]
+
+`--silent`: Supress any command line output
+
 > [!NOTE]
 > The discarded portions at the 3' and 5' ends are only used for annotated genes and are ignored for intergenic regions
