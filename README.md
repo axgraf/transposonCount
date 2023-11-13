@@ -141,9 +141,9 @@ Discarded barcodes:	22.192
 
 ## Parameters
 
-`--left_flanking_sequence`: Sequence that flanks the left-hand side of the barcode sequence. The sequence is searched from the beginnig of the reads. If the sequence is found, the firt part up to the end of the flanking sequence of the read is ignored for barcode identification.
+`--left_flanking_sequence`: Sequence that flanks the left-hand side of the barcode sequence. The sequence is searched from the beginning of the reads. If the sequence is found, the first part up to the end of the flanking sequence of the read is ignored for barcode identification.
 
-`--right_flanking_sequence`: Sequence that flanks the right-hand side of the barcode sequence. The sequence to search from the beginnig of the reads. If the sequence is found, the part up to the end of the read is ignored for barcode identification.
+`--right_flanking_sequence`: Sequence that flanks the right-hand side of the barcode sequence. The sequence to search from the beginning of the reads. If the sequence is found, the part up to the end of the read is ignored for barcode identification.
 
 `--fraction_discard_gene_5_end`: Define the fraction (0.0 - 1.0) of the 5'-end that is discarded for barcode assignment and read counting. Ignored for intergenic regions.
 

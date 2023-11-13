@@ -3,6 +3,27 @@ from lib.barcode import *
 from lib.gff import *
 
 
+def float_range(min_value, max_value):
+    def float_range_checker(arg):
+        try:
+            f = float(arg)
+        except ValueError:
+            raise argparse.ArgumentTypeError("must be a floating point number")
+        if f < min_value or f > max_value:
+            raise argparse.ArgumentTypeError("must be in range [" + str(min_value) + " .. " + str(max_value) + "]")
+        return f
+
+
+def range_limited_float_type(arg):
+    try:
+        f = float(arg)
+    except ValueError:
+        raise argparse.ArgumentTypeError("Must be a floating point number")
+    if f < 0.0 or f > 1.0:
+        raise argparse.ArgumentTypeError("Argument must be between 0.0 - 1.0")
+    return f
+
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
@@ -24,7 +45,7 @@ if __name__ == '__main__':
     parser.add_argument('-a', '--output_annotated_gff_file', metavar="FILE", type=str,
                         help="Output file of generated GFF file",
                         required=True)
-    parser.add_argument('--stat_file', metavar="FILE", type=str,
+    parser.add_argument('--log_file', metavar="FILE", type=str,
                         help="Output of count statistic", default="count_statistic.txt",
                         required=False)
     parser.add_argument('-l', '--left_flanking_sequence', metavar="SEQUENCE", type=str,
@@ -33,11 +54,11 @@ if __name__ == '__main__':
     parser.add_argument('-r', '--right_flanking_sequence', metavar="SEQUENCE", type=str,
                         help="Sequence flanking the 3'-region of the barcode in each read",
                         required=False, default="CAGGGTTGAGATGTGTATA")
-    parser.add_argument('-3', '--fraction_discard_gene_3_end', metavar="FLOAT", type=float,
-                        help="3'-end fraction to ignore for each gene",
+    parser.add_argument('-3', '--fraction_discard_gene_3_end', metavar="FLOAT", type=range_limited_float_type,
+                        help="3'-end fraction to ignore for each gene [0.0 .. 1.0]",
                         required=False, default=0.1)
-    parser.add_argument('-5', '--fraction_discard_gene_5_end', metavar="FLOAT", type=float,
-                        help="5'-end fraction to ignore for each gene",
+    parser.add_argument('-5', '--fraction_discard_gene_5_end', metavar="FLOAT", type=range_limited_float_type,
+                        help="5'-end fraction to ignore for each gene [0.0 .. 1.0]",
                         required=False, default=0.1)
     parser.add_argument('-t', '--threads', metavar="INT", type=int,
                         help="Number of threads", required=False, default=4)
@@ -54,7 +75,7 @@ if __name__ == '__main__':
     for gff_file in args.gff_files:
         gff_files.append(gff_file[0])
 
-    gff = GFF(gff_files, 0.1, 0.1, args.silent)
+    gff = GFF(gff_files, args.fraction_discard_gene_5_end, args.fraction_discard_gene_3_end, args.silent)
     gff.read_gff()
 
     barcodeCoordinateHandler = BarcodeCoordinateHandler(args.barcode_coordinate_file, args.silent)
