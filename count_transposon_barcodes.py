@@ -8,16 +8,25 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="Count transposon mutant libraries",
         usage='use "python3 count_transposon_barcodes.py --help" for more information',
-        epilog="author: Dr. Alexander Graf (graf@genzentrum.lmu.de)", formatter_class=argparse.RawTextHelpFormatter)
+        epilog="author: Dr. Alexander Graf (graf@genzentrum.lmu.de)", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-f', '--fastq_files', action="append", nargs="+", metavar="FILE", type=str,
                         help="Fastq file (one ore more)",
+                        required=True)
+    parser.add_argument('-c', '--barcode_coordinate_file', metavar="FILE", type=str,
+                        help="Barcode coordinate file",
                         required=True)
     parser.add_argument('-g', '--gff_files', action="append", nargs="+", metavar="FILE", type=str,
                         help="GFF3 gene annotation file (one ore more)",
                         required=True)
-    parser.add_argument('-c', '--barcode_coordinate_file',  metavar="FILE", type=str,
-                        help="Barcode coordinate file",
+    parser.add_argument('-o', '--output_file', metavar="FILE", type=str,
+                        help="Output file",
                         required=True)
+    parser.add_argument('-a', '--output_annotated_gff_file', metavar="FILE", type=str,
+                        help="Output file of generated GFF file",
+                        required=True)
+    parser.add_argument('--stat_file', metavar="FILE", type=str,
+                        help="Output of count statistic", default="count_statistic.txt",
+                        required=False)
     parser.add_argument('-l', '--left_flanking_sequence', metavar="SEQUENCE", type=str,
                         help="Sequence flanking the 5'-region of the barcode in each read",
                         required=False, default="ACTCACTATAGGGAGACCGGCCT")
@@ -32,15 +41,6 @@ if __name__ == '__main__':
                         required=False, default=0.1)
     parser.add_argument('-t', '--threads', metavar="INT", type=int,
                         help="Number of threads", required=False, default=4)
-    parser.add_argument('-o', '--output_file', metavar="FILE", type=str,
-                        help="Output file",
-                        required=True)
-    parser.add_argument('-a', '--output_annotated_gff_file', metavar="FILE", type=str,
-                        help="Output file of generated GFF file",
-                        required=True)
-    parser.add_argument('--stat_file', metavar="FILE", type=str,
-                        help="Output of count statistic", default="count_statistic.txt",
-                        required=False)
     parser.add_argument('-s', '--silent', action='store_true',
                         help="Supress any intermediate output")
 
