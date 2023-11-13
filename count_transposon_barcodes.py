@@ -3,17 +3,6 @@ from lib.barcode import *
 from lib.gff import *
 
 
-def float_range(min_value, max_value):
-    def float_range_checker(arg):
-        try:
-            f = float(arg)
-        except ValueError:
-            raise argparse.ArgumentTypeError("must be a floating point number")
-        if f < min_value or f > max_value:
-            raise argparse.ArgumentTypeError("must be in range [" + str(min_value) + " .. " + str(max_value) + "]")
-        return f
-
-
 def range_limited_float_type(arg):
     try:
         f = float(arg)
