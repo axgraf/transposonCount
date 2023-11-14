@@ -75,11 +75,11 @@ if __name__ == '__main__':
     gff.write_gene_annotation(args.output_annotated_gff_file)
 
     with open(args.log_file, 'w') as log_writer:
-        log_writer.write("Total number of reads:\t{:n}\n\n".format(num_fastq_reads))
-        log_writer.write("Reads without barcode assignment:\t{:n}\n".format(unassigned_barcodes2_reads))
-        log_writer.write("Reads with barcode assignment:\t{:n}\n\n".format(assigned_barcodes2_reads))
-        log_writer.write("Used barcodes:\t{:n}\n".format(gff.assigned_barcodes))
-        log_writer.write("\tAssigned to genes:\t{:n}\n".format(gff.assigned_barcodes_to_genes))
-        log_writer.write("\tAssigned to intergenic regions:\t{:n}\n".format(gff.assigned_barcodes_to_intergenic))
-        log_writer.write("Discarded barcodes:\t{:n}\n".format(gff.unassigned_barcodes))
+        log_writer.write(f"Total number of reads:\t{num_fastq_reads:,}\n\n")
+        log_writer.write(f"Reads without barcode assignment:\t{unassigned_barcodes2_reads:,}\n")
+        log_writer.write(f"Reads with barcode assignment:\t{assigned_barcodes2_reads:,}\n\n")
+        log_writer.write(f"Used barcodes:\t{gff.assigned_barcodes:,}\n")
+        log_writer.write(f"\tAssigned to genes:\t{gff.assigned_barcodes_to_genes:,}\n")
+        log_writer.write(f"\tAssigned to intergenic regions:\t{gff.assigned_barcodes_to_intergenic:,}\n")
+        log_writer.write(f"Discarded barcodes:\t{gff.unassigned_barcodes:,}\n")
         log_writer.close()
