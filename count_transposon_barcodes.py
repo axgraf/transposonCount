@@ -56,13 +56,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    gff_files = []
-    fastq_files = []
-    for fastq_file in args.fastq_files:
-        fastq_files.append(fastq_file[0])
-
-    for gff_file in args.gff_files:
-        gff_files.append(gff_file[0])
+    gff_files = [gff[0] for gff in args.gff_files]
+    fastq_files = [fastq[0] for fastq in args.fastq_files]
 
     gff = GFF(gff_files, args.fraction_discard_gene_5_end, args.fraction_discard_gene_3_end, args.silent)
     gff.read_gff()
@@ -79,12 +74,12 @@ if __name__ == '__main__':
     gff.write_output(args.output_file)
     gff.write_gene_annotation(args.output_annotated_gff_file)
 
-    with open(args.stat_file, 'w') as stat_writer:
-        stat_writer.write("Total number of reads:\t{:n}\n\n".format(num_fastq_reads))
-        stat_writer.write("Reads without barcode assignment:\t{:n}\n".format(unassigned_barcodes2_reads))
-        stat_writer.write("Reads with barcode assignment:\t{:n}\n\n".format(assigned_barcodes2_reads))
-        stat_writer.write("Used barcodes:\t{:n}\n".format(gff.assigned_barcodes))
-        stat_writer.write("\tAssigned to genes:\t{:n}\n".format(gff.assigned_barcodes_to_genes))
-        stat_writer.write("\tAssigned to intergenic regions:\t{:n}\n".format(gff.assigned_barcodes_to_intergenic))
-        stat_writer.write("Discarded barcodes:\t{:n}\n".format(gff.unassigned_barcodes))
-        stat_writer.close()
+    with open(args.log_file, 'w') as log_writer:
+        log_writer.write("Total number of reads:\t{:n}\n\n".format(num_fastq_reads))
+        log_writer.write("Reads without barcode assignment:\t{:n}\n".format(unassigned_barcodes2_reads))
+        log_writer.write("Reads with barcode assignment:\t{:n}\n\n".format(assigned_barcodes2_reads))
+        log_writer.write("Used barcodes:\t{:n}\n".format(gff.assigned_barcodes))
+        log_writer.write("\tAssigned to genes:\t{:n}\n".format(gff.assigned_barcodes_to_genes))
+        log_writer.write("\tAssigned to intergenic regions:\t{:n}\n".format(gff.assigned_barcodes_to_intergenic))
+        log_writer.write("Discarded barcodes:\t{:n}\n".format(gff.unassigned_barcodes))
+        log_writer.close()
